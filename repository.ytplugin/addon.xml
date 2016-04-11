@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.YourRepo" name="HELLO REPO" version="1.0" provider-name="HELLO Your Name">
-	<extension point="xbmc.addon.repository" name="HELLO Addon Repository">
-		<info compressed="false">https://github.com/jdf76/jdf76's-Repo/raw/master/addons.xml</info>
-		<checksum>https://github.com/jdf76/jdf76's-Repo/raw/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://github.com/jdf76/jdf76's-Repo/raw/master/zips</datadir>
+<addon id="repository.ytplugin" name="Youtube Addon Repo" version="1.0" provider-name="Jeffrey Frasure">
+	<extension point="xbmc.addon.repository" name="Youtube Addon Repository">
+		<info compressed="false">https://github.com/jdf76/repository/raw/master/addons.xml</info>
+		<checksum>https://github.com/jdf76/repository/raw/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://github.com/jdf76/repository/raw/master/zips</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary>Install MY Addons</summary>
-		<description>Download and install addons from jdf76.......</description>
+		<summary>Install Kodi's Youtube Addons</summary>
+                <description>Download and install addons from the Kodi Youtube group. This plugin is not official from Google.</description>
 		<platform>all</platform>
 	</extension>
 </addon>
