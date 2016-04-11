@@ -6,7 +6,7 @@
 		<datadir zip="true">https://github.com/jdf76/repository/raw/master/zips</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary>Install Kodi's Youtube Addons</summary>
+		<summary>Install Kodis Youtube Addons</summary>
                 <description>Download and install addons from the Kodi Youtube group. This plugin is not official from Google.</description>
 		<platform>all</platform>
 	</extension>
