@@ -4,22 +4,13 @@ import xbmcaddon
 import time
 import urlparse
 
-from random import randint
 from resources.lib.kodion import simple_requests as requests
 from resources.lib.youtube.youtube_exceptions import LoginException
-from resources.lib.youtube.helper.yt_change_api import Change_API
 
 addon = xbmcaddon.Addon()
-api = Change_API()
-if addon.getSetting('youtube.api.lastused.last_login') == '':
-    api.new_login()
-    pass
-
-api_last_login = addon.getSetting('youtube.api.lastused.last_login')
-api_error = addon.getSetting('youtube.api.lastused.error')
-api_secret = api.get_api_secret(api_error, api_last_login)
-api_key = api.get_api_key(api_error, api_last_login)
-api_id = api.get_api_id(api_error, api_last_login)
+api_key = addon.getSetting('youtube.api.key')
+api_id = addon.getSetting('youtube.api.id').replace('.apps.googleusercontent.com', '')
+api_secret = addon.getSetting('youtube.api.secret')
 
 # Kodi 17 support by Uukrul
 
@@ -83,9 +74,8 @@ class LoginClient(object):
             'secret': '%s' % api_secret
         }
     }
-    
+
     def __init__(self, config={}, language='en-US', region='', access_token='', access_token_tv=''):
-       
         if not config:
             config = self.CONFIGS['youtube-for-kodi-fallback']
             pass
@@ -120,7 +110,7 @@ class LoginClient(object):
             pass
         pass
 
-    def revoke(self, refresh_token, context):
+    def revoke(self, refresh_token):
         headers = {'Host': 'www.youtube.com',
                    'Connection': 'keep-alive',
                    'Origin': 'https://www.youtube.com',
@@ -139,7 +129,6 @@ class LoginClient(object):
 
         result = requests.post(url, data=post_data, headers=headers, verify=False)
         if result.status_code != requests.codes.ok:
-            context.log_debug('Request answer: %s' % result.text)
             raise LoginException('Logout Failed')
 
         pass
@@ -190,12 +179,12 @@ class LoginClient(object):
 
         return '', ''
 
-    def get_device_token_tv(self, code, context, client_id='', client_secret='', grant_type=''):
+    def get_device_token_tv(self, code, client_id='', client_secret='', grant_type=''):
         client_id = self.CONFIGS['youtube-tv']['id']
         client_secret = self.CONFIGS['youtube-tv']['secret']
-        return self.get_device_token(code, context, client_id=client_id, client_secret=client_secret, grant_type=grant_type)
+        return self.get_device_token(code, client_id=client_id, client_secret=client_secret, grant_type=grant_type)
 
-    def get_device_token(self, code, context, client_id='', client_secret='', grant_type=''):
+    def get_device_token(self, code, client_id='', client_secret='', grant_type=''):
         headers = {'Host': 'www.youtube.com',
                    'Connection': 'keep-alive',
                    'Origin': 'https://www.youtube.com',
@@ -225,7 +214,6 @@ class LoginClient(object):
 
         result = requests.post(url, data=post_data, headers=headers, verify=False)
         if result.status_code != requests.codes.ok:
-            context.log_debug('Request answer: %s' % result.text)
             raise LoginException('Login Failed')
 
         if result.headers.get('content-type', '').startswith('application/json'):
@@ -233,11 +221,11 @@ class LoginClient(object):
 
         return None
 
-    def generate_user_code_tv(self, context):
+    def generate_user_code_tv(self):
         client_id = self.CONFIGS['youtube-tv']['id']
-        return self.generate_user_code(context, client_id=client_id)
+        return self.generate_user_code(client_id=client_id)
 
-    def generate_user_code(self, context, client_id=''):
+    def generate_user_code(self, client_id=''):
         headers = {'Host': 'www.youtube.com',
                    'Connection': 'keep-alive',
                    'Origin': 'https://www.youtube.com',
@@ -261,7 +249,6 @@ class LoginClient(object):
 
         result = requests.post(url, data=post_data, headers=headers, verify=False)
         if result.status_code != requests.codes.ok:
-            context.log_debug('Request answer: %s' % result.text)
             raise LoginException('Login Failed')
 
         if result.headers.get('content-type', '').startswith('application/json'):

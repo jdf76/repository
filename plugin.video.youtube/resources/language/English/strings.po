@@ -253,16 +253,8 @@ msgctxt "#30203"
 msgid "API Secret"
 msgstr ""
 
-msgctxt "#30204"
-msgid "Own API enable"
-msgstr ""
-
-msgctxt "#30205"
-msgid "Autologin on Error enable"
-msgstr ""
-
 #YouTube
-#empty strings from id 30206 to 30499
+#empty strings from id 30204 to 30499
 
 msgctxt "#30500"
 msgid "Channels"
@@ -466,8 +458,4 @@ msgstr ""
 
 msgctxt "#30550"
 msgid "Region"
-msgstr ""
-
-msgctxt "#30551"
-msgid "Recommendations"
 msgstr ""
