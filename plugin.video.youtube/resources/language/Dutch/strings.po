@@ -1,7 +1,6 @@
 # Kodi Media Center language file
 # Addon Name: YouTube
 # Addon id: plugin.video.youtube
-# Addon version: 5.1.9~beta1
 # Addon Provider: MaikoHermans
 msgid ""
 msgstr ""
@@ -77,7 +76,11 @@ msgctxt "#30017"
 msgid "360p"
 msgstr "360p"
 
-#empty strings from id 30018 to 30019
+msgctxt "#30018"
+msgid "1080p Live / 720p (HD)"
+msgstr ""
+
+#empty strings 30019
 
 msgctxt "#30020"
 msgid "Allow 3D"
@@ -93,11 +96,11 @@ msgstr "Items per pagina"
 
 msgctxt "#30023"
 msgid "Search History Size"
-msgstr "Zoek historie grote"
+msgstr "Zoek historie grootte"
 
 msgctxt "#30024"
 msgid "Cache Size (MB)"
-msgstr "Cache Grote (MB)"
+msgstr "Cache Grootte (MB)"
 
 msgctxt "#30025"
 msgid "Enable setup-wizard"
@@ -145,7 +148,23 @@ msgstr "Venster: Albums"
 
 msgctxt "#30036"
 msgid "Support alternative player"
-msgstr "Support alternative afspeler"
+msgstr "Ondersteun alternatieve speler"
+
+msgctxt "#30037"
+msgid "Custom Watch Later Playlist ID"
+msgstr ""
+
+msgctxt "#30038"
+msgid "Custom History Playlist ID"
+msgstr ""
+
+msgctxt "#30039"
+msgid "Enable URLResolver Debrid support"
+msgstr ""
+
+msgctxt "#30040"
+msgid "Configure URLResolver"
+msgstr ""
 
 #Kodion Common
 #empty strings from id 30037 to 30099
@@ -156,7 +175,7 @@ msgstr "Favorieten"
 
 msgctxt "#30101"
 msgid "Add to addon favs"
-msgstr "Voeg to om favorieten toe te voegen"
+msgstr "Voeg toe aan addon favorieten"
 
 msgctxt "#30102"
 msgid "Search"
@@ -176,11 +195,11 @@ msgstr "Archief"
 
 msgctxt "#30106"
 msgid "Next Page (%d)"
-msgstr "Volgende Pagina (%)"
+msgstr "Volgende Pagina (%d)"
 
 msgctxt "#30107"
 msgid "Watch Later"
-msgstr "Kijk Later"
+msgstr "Later Bekijken"
 
 msgctxt "#30108"
 msgid "Remove"
@@ -208,7 +227,7 @@ msgstr "Hernoem"
 
 msgctxt "#30114"
 msgid "Confirm delete"
-msgstr "Bevestig delete"
+msgstr "Bevestig wissen"
 
 msgctxt "#30115"
 msgid "Confirm remove"
@@ -224,7 +243,7 @@ msgstr "Verwijder \"%s\"?"
 
 msgctxt "#30118"
 msgid "Delete"
-msgstr "Verwijder"
+msgstr "Wis"
 
 msgctxt "#30119"
 msgid "Please wait..."
@@ -255,11 +274,11 @@ msgstr "API Secret"
 
 msgctxt "#30204"
 msgid "Enable Personal API Keys"
-msgstr "Schakel personelijke API sleutels in"
+msgstr "Schakel persoonlijke API sleutels in"
 
 msgctxt "#30205"
-msgid "Autologin on Error enable"
-msgstr "Automatisch inloggen bij error inschakelen"
+msgid "Use preset API key set"
+msgstr "Gebruik vooraf ingestelde API sleutel set"
 
 #YouTube
 #empty strings from id 30206 to 30499
@@ -278,11 +297,11 @@ msgstr "Ga naar %s"
 
 msgctxt "#30503"
 msgid "Show channel fanart"
-msgstr "Toon kanaal kunst door fans"
+msgstr "Toon kanaal afbeeldingen"
 
 msgctxt "#30504"
 msgid "Subscriptions"
-msgstr "Abbonee's"
+msgstr "Abonnementen"
 
 msgctxt "#30505"
 msgid "Afmelden"
@@ -290,7 +309,7 @@ msgstr ""
 
 msgctxt "#30506"
 msgid "Subscribe"
-msgstr "Abboneer"
+msgstr "Abonneer"
 
 msgctxt "#30507"
 msgid "My Channel"
@@ -298,7 +317,7 @@ msgstr "Mijn Kanaal"
 
 msgctxt "#30508"
 msgid "Liked Videos"
-msgstr "Gelikete Video's"
+msgstr "Leuk gevonden Video's"
 
 msgctxt "#30509"
 msgid "History"
@@ -306,7 +325,7 @@ msgstr "Geschiedenis"
 
 msgctxt "#30510"
 msgid "My Subscriptions"
-msgstr "Mijn Abbonee's"
+msgstr "Mijn Abonnementen"
 
 msgctxt "#30511"
 msgid "Queue video"
@@ -334,7 +353,7 @@ msgstr "Mappen"
 
 msgctxt "#30517"
 msgid "Subscribe to %s"
-msgstr "Abboneer op %s"
+msgstr "Abonneer op %s"
 
 msgctxt "#30518"
 msgid "Go to '%s'"
@@ -402,15 +421,15 @@ msgstr "Omgekeerd"
 
 msgctxt "#30534"
 msgid "Shuffle"
-msgstr "Schuifelen"
+msgstr "Willekeurige volgorde"
 
 msgctxt "#30535"
 msgid "Select the order of the playlist"
-msgstr "Selecteer volgerde van de afspeellijst"
+msgstr "Selecteer volgorde van de afspeellijst"
 
 msgctxt "#30536"
 msgid "Updating Playlist..."
-msgstr "Afspeellijst updaten..."
+msgstr "Afspeellijst bijwerken..."
 
 msgctxt "#30537"
 msgid "Play from here"
@@ -471,3 +490,107 @@ msgstr "Regio"
 msgctxt "#30551"
 msgid "Recommendations"
 msgstr "Aanbevolen"
+
+msgctxt "#30552"
+msgid "Maintenance"
+msgstr ""
+
+msgctxt "#30553"
+msgid "Delete function cache database"
+msgstr ""
+
+msgctxt "#30554"
+msgid "Delete search history database"
+msgstr ""
+
+msgctxt "#30555"
+msgid "Clear function cache"
+msgstr ""
+
+msgctxt "#30556"
+msgid "Clear search history"
+msgstr ""
+
+msgctxt "#30557"
+msgid "function cache"
+msgstr ""
+
+msgctxt "#30558"
+msgid "search history"
+msgstr ""
+
+msgctxt "#30559"
+msgid "Delete settings.xml"
+msgstr ""
+
+msgctxt "#30560"
+msgid "Subtitle language(s) to download"
+msgstr ""
+
+msgctxt "#30561"
+msgid "None"
+msgstr ""
+
+msgctxt "#30562"
+msgid "All"
+msgstr ""
+
+msgctxt "#30563"
+msgid "Setting"
+msgstr ""
+
+msgctxt "#30564"
+msgid "Setting, English"
+msgstr ""
+
+msgctxt "#30565"
+msgid "English"
+msgstr ""
+
+msgctxt "#30566"
+msgid "Prompt"
+msgstr ""
+
+msgctxt "#30567"
+msgid "Set as Watch Later"
+msgstr ""
+
+msgctxt "#30568"
+msgid "Remove as Watch Later"
+msgstr ""
+
+msgctxt "#30569"
+msgid "Are you sure you want to remove '%s' as your Watch Later list?"
+msgstr ""
+
+msgctxt "#30570"
+msgid "Are you sure you want to replace your current Watch Later list with '%s'?"
+msgstr ""
+
+msgctxt "#30571"
+msgid "Set as History"
+msgstr ""
+
+msgctxt "#30572"
+msgid "Remove as History"
+msgstr ""
+
+msgctxt "#30573"
+msgid "Are you sure you want to remove '%s' as your History list?"
+msgstr ""
+
+msgctxt "#30574"
+msgid "Are you sure you want to replace your current History list with '%s'?"
+msgstr ""
+
+msgctxt "#30575"
+msgid "Succeeded"
+msgstr ""
+
+msgctxt "#30576"
+msgid "Failed"
+msgstr ""
+
+msgctxt "#30577"
+msgid "Settings"
+msgstr ""
