@@ -595,15 +595,15 @@ class VideoInfo(object):
             pass
         """
 
-        if self._context.get_settings().use_dash():
-            major_version = self._context.get_system_version().get_version()[0]
-            if major_version >= 17:
-                use_dash = True
-                if not self._context.addon_enabled('inputstream.mpd'):
-                    use_dash = self._context.set_addon_enabled('inputstream.mpd')  # already 'enabled' this in youtube settings
-            else:
-                use_dash = False
-                self._context.get_settings().set_bool('kodion.video.quality.mpd', False)
+        settings = self._context.get_settings()
+        use_dash = settings.use_dash()
+
+        if use_dash:
+            if settings.dash_support_addon() and not self._context.addon_enabled('inputstream.adaptive'):
+                if self._context.get_ui().on_yes_no_input(self._context.get_name(), self._context.localize(30579)):
+                    use_dash = self._context.set_addon_enabled('inputstream.adaptive')
+                else:
+                    use_dash = False
 
             if use_dash:
                 mpd_url = params.get('dashmpd', None)
