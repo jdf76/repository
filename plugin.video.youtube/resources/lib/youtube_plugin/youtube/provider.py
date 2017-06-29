@@ -25,6 +25,7 @@ class Provider(kodion.AbstractProvider):
                  'youtube.refresh': 30543,
                  'youtube.history': 30509,
                  'youtube.my_subscriptions': 30510,
+                 'youtube.my_subscriptions_filtered': 31584,
                  'youtube.remove': 30108,
                  'youtube.delete': 30118,
                  'youtube.browse_channels': 30512,
@@ -72,7 +73,11 @@ class Provider(kodion.AbstractProvider):
                  'youtube.set.as.watchlater': 30567,
                  'youtube.remove.as.history': 30572,
                  'youtube.set.as.history': 30571,
-                 'youtube.settings': 30577}
+                 'youtube.settings': 30577,
+                 'youtube.remove.my_subscriptions.filter': 31588,
+                 'youtube.add.my_subscriptions.filter': 31587,
+                 'youtube.removed.my_subscriptions.filter': 31590,
+                 'youtube.added.my_subscriptions.filter': 31589}
 
     def __init__(self):
         kodion.AbstractProvider.__init__(self)
@@ -389,11 +394,15 @@ class Provider(kodion.AbstractProvider):
     @kodion.RegisterProviderPath('^/subscriptions/(?P<method>.*)/$')
     def _on_subscriptions(self, context, re_match):
         method = re_match.group('method')
+        if method == 'list':
+            self.set_content_type(context, kodion.constants.content_type.FILES)
         return yt_subscriptions.process(method, self, context, re_match)
 
     @kodion.RegisterProviderPath('^/special/(?P<category>.*)/$')
     def _on_yt_specials(self, context, re_match):
         category = re_match.group('category')
+        if category == 'browse_channels':
+            self.set_content_type(context, kodion.constants.content_type.FILES)
         return yt_specials.process(category, self, context, re_match)
 
     @kodion.RegisterProviderPath('^/events/post_play/$')
@@ -427,7 +436,7 @@ class Provider(kodion.AbstractProvider):
 
     @kodion.RegisterProviderPath('^/sign/(?P<mode>.*)/$')
     def _on_sign(self, context, re_match):
-        mode = re_match.group('mode')            
+        mode = re_match.group('mode')
         yt_login.process(mode, self, context, re_match, context.get_settings().requires_dual_login())
         return True
 
@@ -445,6 +454,7 @@ class Provider(kodion.AbstractProvider):
         page_token = context.get_param('page_token', '')
         search_type = context.get_param('search_type', 'video')
         event_type = context.get_param('event_type', '')
+        safe_search = context.get_settings().safe_search()
         page = int(context.get_param('page', 1))
 
         if search_type == 'video':
@@ -484,7 +494,7 @@ class Provider(kodion.AbstractProvider):
 
         json_data = context.get_function_cache().get(FunctionCache.ONE_MINUTE * 10, self.get_client(context).search,
                                                      q=search_text, search_type=search_type, event_type=event_type,
-                                                     page_token=page_token)
+                                                     safe_search=safe_search, page_token=page_token)
         if not v3.handle_error(self, context, json_data):
             return False
         result.extend(v3.response_to_items(self, context, json_data))
@@ -499,6 +509,43 @@ class Provider(kodion.AbstractProvider):
             xbmcaddon.Addon(id='inputstream.adaptive').openSettings()
         else:
             return False
+
+    @kodion.RegisterProviderPath('^/my_subscriptions/filter/$')
+    def manage_my_subscription_filter(self, context, re_match):
+        params = context.get_params()
+        action = params.get('action')
+        channel = params.get('channel_name')
+        if (not channel) or (not action):
+            return
+
+        filter_enabled = context.get_settings().get_bool('youtube.folder.my_subscriptions_filtered.show', False)
+        if not filter_enabled:
+            return
+
+        channel_name = channel.lower()
+        channel_name = channel_name.replace(',', '')
+
+        filter_string = context.get_settings().get_string('youtube.filter.my_subscriptions_filtered.list', '')
+        filter_string = filter_string.replace(', ', ',')
+        filter_list = filter_string.split(',')
+        filter_list = [x.lower() for x in filter_list]
+
+        if action == 'add':
+            if channel_name not in filter_list:
+                filter_list.append(channel_name)
+        elif action == 'remove':
+            if channel_name in filter_list:
+                filter_list = [chan_name for chan_name in filter_list if chan_name != channel_name]
+
+        modified_string = ','.join(map(str, filter_list))
+        if filter_string != modified_string:
+            context.get_settings().set_string('youtube.filter.my_subscriptions_filtered.list', modified_string)
+            if action == 'add':
+                context.get_ui().show_notification(context.localize(self.LOCAL_MAP['youtube.added.my_subscriptions.filter']) % channel)
+            elif action == 'remove':
+                context.get_ui().show_notification(context.localize(self.LOCAL_MAP['youtube.removed.my_subscriptions.filter']) % channel)
+
+            context.get_ui().refresh_container()
 
     @kodion.RegisterProviderPath('^/maintain/(?P<maint_type>.*)/(?P<action>.*)/$')
     def maintenance_actions(self, context, re_match):
@@ -582,6 +629,16 @@ class Provider(kodion.AbstractProvider):
                 context.create_resource_path('media', 'new_uploads.png'))
             my_subscriptions_item.set_fanart(self.get_fanart(context))
             result.append(my_subscriptions_item)
+            pass
+
+        if self.is_logged_in() and settings.get_bool('youtube.folder.my_subscriptions_filtered.show', True):
+            # my subscriptions filtered
+            my_subscriptions_filtered_item = DirectoryItem(
+                context.localize(self.LOCAL_MAP['youtube.my_subscriptions_filtered']),
+                context.create_uri(['special', 'new_uploaded_videos_tv_filtered']),
+                context.create_resource_path('media', 'new_uploads.png'))
+            my_subscriptions_filtered_item.set_fanart(self.get_fanart(context))
+            result.append(my_subscriptions_filtered_item)
             pass
 
         # Recommendations
