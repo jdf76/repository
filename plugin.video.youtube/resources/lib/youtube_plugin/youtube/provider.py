@@ -416,13 +416,13 @@ class Provider(kodion.AbstractProvider):
 
                 # second: remove video from 'Watch Later' playlist
                 if context.get_settings().get_bool('youtube.playlist.watchlater.autoremove', True):
-                    cplid = context.get_settings().get_string('youtube.folder.watch_later.playlist', '').strip()
-                    playlist_id = cplid if cplid else 'WL'
-                    playlist_item_id = client.get_playlist_item_id_of_video_id(playlist_id=playlist_id, video_id=video_id)
-                    if playlist_item_id:
-                        json_data = client.remove_video_from_playlist(playlist_id, playlist_item_id)
-                        if not v3.handle_error(self, context, json_data):
-                            return False
+                    watch_later_playlist_id = context.get_settings().get_string('youtube.folder.watch_later.playlist', '').strip()
+                    if watch_later_playlist_id:
+                        playlist_item_id = client.get_playlist_item_id_of_video_id(playlist_id=watch_later_playlist_id, video_id=video_id)
+                        if playlist_item_id:
+                            json_data = client.remove_video_from_playlist(watch_later_playlist_id, playlist_item_id)
+                            if not v3.handle_error(self, context, json_data):
+                                return False
 
                 history_playlist_id = context.get_settings().get_string('youtube.folder.history.playlist', '').strip()
                 if history_playlist_id:
@@ -606,6 +606,49 @@ class Provider(kodion.AbstractProvider):
                         else:
                             context.get_ui().show_notification(context.localize(30576))
 
+    @kodion.RegisterProviderPath('^/api/update/$')
+    def api_key_update(self, context, re_match):
+        settings = context.get_settings()
+        params = context.get_params()
+        client_id = params.get('client_id')
+        client_secret = params.get('client_secret')
+        api_key = params.get('api_key')
+        enable = params.get('enable', '').lower() == 'true'
+        updated_list = []
+
+        if api_key:
+            settings.set_string('youtube.api.key', api_key)
+            updated_list.append(context.localize(30201))
+        if client_id:
+            settings.set_string('youtube.api.id', client_id)
+            updated_list.append(context.localize(30202))
+        if client_secret:
+            settings.set_string('youtube.api.secret', client_secret)
+            updated_list.append(context.localize(30203))
+        if updated_list:
+            context.get_ui().show_notification(context.localize(31597) % ', '.join(updated_list))
+        context.log_debug('Updated API keys: %s' % ', '.join(updated_list))
+
+        client_id = settings.get_string('youtube.api.id', '')
+        client_secret = settings.get_string('youtube.api.secret', '')
+        api_key = settings.get_string('youtube.api.key', '')
+        missing_list = []
+
+        if enable and client_id and client_secret and api_key:
+            settings.set_bool('youtube.api.enable', True)
+            context.get_ui().show_notification(context.localize(31598))
+            context.log_debug('Personal API keys enabled')
+        elif enable:
+            if not api_key:
+                missing_list.append(context.localize(30201))
+            if not client_id:
+                missing_list.append(context.localize(30202))
+            if not client_secret:
+                missing_list.append(context.localize(30203))
+            settings.set_bool('youtube.api.enable', False)
+            context.get_ui().show_notification(context.localize(31599) % ', '.join(missing_list))
+            context.log_debug('Failed to enable personal API keys. Missing: %s' % ', '.join(missing_list))
+
     def on_root(self, context, re_match):
         """
         Support old YouTube url calls, but also log a deprecation warnings.
@@ -697,7 +740,8 @@ class Provider(kodion.AbstractProvider):
                 pass
 
             # watch later
-            if 'watchLater' in playlists and settings.get_bool('youtube.folder.watch_later.show', True):
+            if 'watchLater' in playlists and settings.get_bool('youtube.folder.watch_later.show', True) and \
+                    settings.get_string('youtube.folder.watch_later.playlist', '').strip():
                 watch_later_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.watch_later']),
                                                  context.create_uri(
                                                      ['channel', 'mine', 'playlist', playlists['watchLater']]),
@@ -732,7 +776,8 @@ class Provider(kodion.AbstractProvider):
                 pass
 
             # history
-            if 'watchHistory' in playlists and settings.get_bool('youtube.folder.history.show', False):
+            if 'watchHistory' in playlists and settings.get_bool('youtube.folder.history.show', False) and \
+                    settings.get_string('youtube.folder.history.playlist', '').strip():
                 watch_history_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.history']),
                                                    context.create_uri(
                                                        ['channel', 'mine', 'playlist', playlists['watchHistory']]),
@@ -760,14 +805,14 @@ class Provider(kodion.AbstractProvider):
                 pass
             pass
 
-        # browse channels
-        if settings.get_bool('youtube.folder.browse_channels.show', True):
-            browse_channels_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.browse_channels']),
-                                                 context.create_uri(['special', 'browse_channels']),
-                                                 image=context.create_resource_path('media', 'browse_channels.png'))
-            browse_channels_item.set_fanart(self.get_fanart(context))
-            result.append(browse_channels_item)
-            pass
+            # browse channels
+            if settings.get_bool('youtube.folder.browse_channels.show', True):
+                browse_channels_item = DirectoryItem(context.localize(self.LOCAL_MAP['youtube.browse_channels']),
+                                                     context.create_uri(['special', 'browse_channels']),
+                                                     image=context.create_resource_path('media', 'browse_channels.png'))
+                browse_channels_item.set_fanart(self.get_fanart(context))
+                result.append(browse_channels_item)
+                pass
 
         # live events
         if settings.get_bool('youtube.folder.live.show', True):
