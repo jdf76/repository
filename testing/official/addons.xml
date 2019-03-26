@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.youtube" name="YouTube" version="6.4.1~beta1" provider-name="anxdpanic, bromix">
+<addon id="plugin.video.youtube" name="YouTube" version="6.4.1~beta2" provider-name="anxdpanic, bromix">
     <requires>
         <import addon="xbmc.python" version="2.20.0"/>
         <import addon="script.module.six" version="1.11.0"/>
@@ -22,10 +22,11 @@
         - includes HDR content in the manifest
 [add] add support for &amp;hide_folders=true parameter in search query urls
         - when added to the url it will hide the Playlists, Channels, and Live folders
+[add] &amp;seek=&lt;time_in_seconds&gt; to play urls
 [fix] fix playback of Purchases
 [fix] fixed saved playlists that don't belong to a channel
 [fix] mpeg-dash frame rate representation
-[fix] playback monitor when quickly changing videos
+[chg] handle playback monitoring in threads
 [lang] nl_nl strings |contrib: MB1968|
         </news>
         <assets>
