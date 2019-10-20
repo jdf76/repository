@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.youtube" name="YouTube" version="6.5.2~beta3" provider-name="anxdpanic, bromix">
+<addon id="plugin.video.youtube" name="YouTube" version="6.5.2" provider-name="anxdpanic, bromix">
     <requires>
         <import addon="xbmc.python" version="2.20.0"/>
         <import addon="script.module.six" version="1.11.0"/>
@@ -20,6 +20,9 @@
 [fix] ended live streams not using mpeg-dash when enabled
 [fix] subscriptions not showing latest videos
 [upd] simplify youtube_resolver regex |contrib: Twilight0|
+[lang] de_de strings |contrib: TehTux|
+[lang] pl_pl strings |contrib: drrak|
+[lang] nl_nl strings |contrib: Markman-B|
         </news>
         <assets>
             <icon>icon.png</icon>
