@@ -76,13 +76,12 @@
         <reuselanguageinvoker>true</reuselanguageinvoker>
     </extension>
 </addon>
-<!-- unofficial -->
 
-<addon id="repository.yt.unofficial" name="YouTube (Unofficial)" version="1.0.0" provider-name="Jeffrey Frasure">
+<addon id="repository.yt.unofficial" name="YouTube (Unofficial)" version="1.0.1" provider-name="anxdpanic">
 	<extension point="xbmc.addon.repository" name="YouTube (Unofficial)">
-		<info compressed="false">https://raw.githubusercontent.com/jdf76/repository/master/unofficial/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/jdf76/repository/master/unofficial/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/jdf76/repository/master/unofficial/zips</datadir>
+		<info compressed="false">http://panicked.xyz/repository/youtube/python2/unofficial/addons.xml</info>
+		<checksum>http://panicked.xyz/repository/youtube/python2/unofficial/addons.xml.md5</checksum>
+		<datadir zip="true">http://panicked.xyz/repository/youtube/python2/unofficial/zips</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Install the unofficial versions of the YouTube add-on.</summary>
